@@ -1,9 +1,8 @@
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { ViewType } from '@/lib/types'
-import { FeaturedContent } from "./feature-content"
-import { DepartmentPersonalization } from "./department-personalization"
-import { PatientPersonalization } from "./patient-personalization"
-import { AllSongs } from "./all-songs"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { FeaturedContent } from "@/components/feature-content"
+import { DepartmentPersonalization } from "@/components/department-personalization"
+import { PatientPersonalization } from "@/components/patient-personalization"
 
 export function MainContent({ activeView }: { activeView: ViewType }) {
   return (

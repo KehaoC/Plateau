@@ -4,10 +4,9 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { SongList } from "@/components/song-list"
 import { songs } from "@/lib/data"
 import { Song } from "@/lib/types"
-
+import { SongList } from "@/components/song-list"
 export function DepartmentPersonalization() {
   const [department, setDepartment] = useState('')
   const [customPlaylist, setCustomPlaylist] = useState<Song[]>([])
