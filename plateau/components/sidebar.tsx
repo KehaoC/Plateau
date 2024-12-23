@@ -100,7 +100,7 @@ export function Sidebar({ setActiveView, activeView }: {
             <NavSection
               key={section.title}
               title={section.title}
-              items={section.items}
+              items={section.items as { label: string; icon: React.ReactNode; view: ViewType; animate?: boolean }[]}
               setActiveView={setActiveView}
               activeView={activeView}
             />

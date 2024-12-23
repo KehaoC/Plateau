@@ -13,7 +13,7 @@ export default function Page() {
   return (
     <div className="h-screen flex flex-col">
       <div className="flex-1 flex overflow-hidden">
-        <Sidebar setActiveView={setActiveView} />
+        <Sidebar setActiveView={setActiveView} activeView={activeView} />
         <div className="flex-1 flex flex-col">
           <TopBar />
           <MainContent activeView={activeView} />
