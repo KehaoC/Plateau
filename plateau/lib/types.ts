@@ -18,3 +18,14 @@ export interface Playlist {
     cover: string
     songs: Song[]
   }
+
+export type ViewType = 
+  | 'featured' 
+  | 'department' 
+  | 'patient' 
+  | 'library' 
+  | 'music-generation'
+  | 'music-prescription'
+  | 'patient-management'
+  | 'prescription-list'
+  | 'prescription-player'
