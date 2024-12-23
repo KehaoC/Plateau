@@ -1,0 +1,120 @@
+import { Playlist, Song } from '@/lib/types'
+
+export const songs: Song[] = [
+  {
+    id: 1,
+    title: "Butterfly",
+    artist: "Grimes",
+    cover: "/placeholder.svg?height=400&width=400",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    tags: ["电子", "流行"],
+    suitableFor: ["焦虑症患者", "失眠症患者", "抑郁症患者"],
+    emotionalImpact: "这首歌曲有助于缓解压力，提升心情。它的旋律舒缓，节奏平稳，可以帮助听者放松身心，减少焦虑感。歌词中充满希望和积极的信息，能够给予听者精神上的支持和鼓励。",
+    musicalAnalysis: "这首歌采用了典型的流行音乐结构：前奏-主歌-副歌-主歌-副歌-桥段-副歌。它的和声进行简单直接，主要使用大调和弦，给人以温暖、积极的感觉。歌曲的节奏稳定，每分钟约100拍，这个速度既不会太快导致兴奋，也不会太慢引起沮丧，非常适合放松和冥想。",
+    therapeuticSuggestions: "建议在患者感到焦虑或压力大时播放这首歌曲。可以在睡前或冥想时使用，帮助患者放松身心。对于抑郁症患者，可以在早晨起床时播放，帮助他们以积极的心态开始新的一天。"
+  },
+  {
+    id: 2,
+    title: "Genesis",
+    artist: "Grimes",
+    cover: "/placeholder.svg?height=400&width=400",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+    tags: ["电子", "实验"]
+  },
+  {
+    id: 3,
+    title: "Oblivion",
+    artist: "Grimes",
+    cover: "/placeholder.svg?height=400&width=400",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+    tags: ["电子", "流行"]
+  },
+  {
+    id: 4,
+    title: "Bohemian Rhapsody",
+    artist: "Queen",
+    cover: "/placeholder.svg?height=400&width=400",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+    tags: ["摇滚", "经典"]
+  },
+  {
+    id: 5,
+    title: "Stairway to Heaven",
+    artist: "Led Zeppelin",
+    cover: "/placeholder.svg?height=400&width=400",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+    tags: ["摇滚", "经典"]
+  },
+  {
+    id: 6,
+    title: "Imagine",
+    artist: "John Lennon",
+    cover: "/placeholder.svg?height=400&width=400",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
+    tags: ["摇滚", "民谣"]
+  },
+  {
+    id: 7,
+    title: "Smells Like Teen Spirit",
+    artist: "Nirvana",
+    cover: "/placeholder.svg?height=400&width=400",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3",
+    tags: ["摇滚", "垃圾"]
+  },
+  {
+    id: 8,
+    title: "Billie Jean",
+    artist: "Michael Jackson",
+    cover: "/placeholder.svg?height=400&width=400",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
+    tags: ["流行", "R&B"]
+  },
+  {
+    id: 9,
+    title: "Like a Rolling Stone",
+    artist: "Bob Dylan",
+    cover: "/placeholder.svg?height=400&width=400",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",
+    tags: ["民谣", "摇滚"]
+  },
+  {
+    id: 10,
+    title: "Respect",
+    artist: "Aretha Franklin",
+    cover: "/placeholder.svg?height=400&width=400",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3",
+    tags: ["R&B", "灵魂"]
+  }
+]
+
+export const playlists: Playlist[] = [
+  {
+    id: 1,
+    title: "Daily Mix",
+    description: "Personalized playlist for you",
+    cover: "/placeholder.svg?height=400&width=400",
+    songs: songs.slice(0, 4)
+  },
+  {
+    id: 2,
+    title: "Top Hits 2024",
+    description: "Popular tracks this year",
+    cover: "/placeholder.svg?height=400&width=400",
+    songs: songs.slice(4, 8)
+  },
+  {
+    id: 3,
+    title: "Chill Vibes",
+    description: "Relaxing music collection",
+    cover: "/placeholder.svg?height=400&width=400",
+    songs: songs.slice(2, 6)
+  },
+  {
+    id: 4,
+    title: "New Releases",
+    description: "Fresh music just for you",
+    cover: "/placeholder.svg?height=400&width=400",
+    songs: songs.slice(6, 10)
+  }
+]
+
