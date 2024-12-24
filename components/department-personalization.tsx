@@ -4,18 +4,18 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { songs } from "@/lib/data"
-import { Song } from "@/lib/types"
-import { SongList } from "@/components/song-list"
+import { Musics } from "@/lib/data"
+import { Music } from "@/lib/types"
+import { MusicList } from "@/components/music-list"
 export function DepartmentPersonalization() {
   const [department, setDepartment] = useState('')
-  const [customPlaylist, setCustomPlaylist] = useState<Song[]>([])
+  const [customPlaylist, setCustomPlaylist] = useState<Music[]>([])
 
   const generatePlaylist = () => {
     console.log('generatePlaylist', department)
     // This is a mock function to simulate generating a playlist
     // In a real application, this would call an API or use an AI model
-    const shuffled = [...songs].sort(() => 0.5 - Math.random())
+    const shuffled = [...Musics].sort(() => 0.5 - Math.random())
     setCustomPlaylist(shuffled.slice(0, 5))
   }
 
@@ -41,7 +41,7 @@ export function DepartmentPersonalization() {
           {customPlaylist.length > 0 && (
             <>
               <h2 className="text-xl font-semibold mb-4">为 {department} 定制的歌单</h2>
-              <SongList songs={customPlaylist} />
+              <MusicList Musics={customPlaylist} />
             </>
           )}
         </div>

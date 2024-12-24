@@ -7,12 +7,13 @@ import { Heart, ListMusic, Mic2, Pause, Play, Repeat, Shuffle, SkipBack, SkipFor
 import Image from "next/image"
 import { usePlayerStore } from '@/hooks/use-player-store'
 import { formatTime } from '@/lib/utils'
-import { SongDetails } from "@/components/song-details"
+import { MusicDetails } from "@/components/music-details"
 
 export function MusicPlayer() {
+  // 状态管理, 音乐播放器的实际生存位置
   const audioRef = useRef<HTMLAudioElement>(null)
   const {
-    currentSong,
+    currentMusic,
     isPlaying,
     volume,
     progress,
@@ -30,6 +31,7 @@ export function MusicPlayer() {
   } = usePlayerStore()
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
 
+  // 播放音乐
   useEffect(() => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -38,14 +40,16 @@ export function MusicPlayer() {
         audioRef.current.pause()
       }
     }
-  }, [isPlaying, currentSong])
+  }, [isPlaying, currentMusic])
 
+  // 设置音量
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume
     }
   }, [volume])
 
+  // 更新进度
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       setProgress(audioRef.current.currentTime)
@@ -53,6 +57,7 @@ export function MusicPlayer() {
     }
   }
 
+  // 更新进度
   const handleProgressChange = (value: number[]) => {
     if (audioRef.current) {
       audioRef.current.currentTime = value[0]
@@ -60,10 +65,12 @@ export function MusicPlayer() {
     }
   }
 
+  // 设置音量
   const handleVolumeChange = (value: number[]) => {
     setVolume(value[0] / 100)
   }
 
+  // 音乐结束
   const handleEnded = () => {
     if (isRepeating) {
       if (audioRef.current) {
@@ -75,13 +82,13 @@ export function MusicPlayer() {
     }
   }
 
-  if (!currentSong) return null
+  if (!currentMusic) return null
 
   return (
     <>
       <audio
         ref={audioRef}
-        src={currentSong.audio}
+        src={currentMusic.audio}
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleEnded}
       />
@@ -92,15 +99,15 @@ export function MusicPlayer() {
             onClick={() => setIsDetailsOpen(true)}
           >
             <Image
-              src={currentSong.cover}
-              alt={`${currentSong.title} cover`}
+              src={currentMusic.cover}
+              alt={`${currentMusic.title} cover`}
               className="object-cover"
               fill
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-medium">{currentSong.title}</span>
-            <span className="text-xs text-muted-foreground">{currentSong.artist}</span>
+            <span className="font-medium">{currentMusic.title}</span>
+            <span className="text-xs text-muted-foreground">{currentMusic.artist}</span>
           </div>
           <Button variant="ghost" size="icon" className="h-8 w-8">
             <Heart className="h-4 w-4" />
@@ -185,9 +192,9 @@ export function MusicPlayer() {
           />
         </div>
       </div>
-      {currentSong && (
-        <SongDetails
-          song={currentSong}
+      {currentMusic && (
+        <MusicDetails
+          MusicId={currentMusic.id}
           isOpen={isDetailsOpen}
           onClose={() => setIsDetailsOpen(false)}
         />

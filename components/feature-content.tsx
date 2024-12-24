@@ -1,9 +1,9 @@
 import { RefreshCw } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { PlaylistCard } from "@/components/playlist-card"
-import { SongList } from "@/components/song-list"
-import { AllSongs } from "@/components/all-songs"
-import { playlists, songs } from "@/lib/data"
+import { MusicList } from "@/components/music-list"
+import { AllMusics } from "@/components/all-musics"
+import { playlists, Musics } from "@/lib/data"
 
 export function FeaturedContent() {
   return (
@@ -25,13 +25,13 @@ export function FeaturedContent() {
       
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold">Top Songs</h2>
+          <h2 className="text-2xl font-bold">Top Musics</h2>
         </div>
-        <SongList songs={songs.slice(0, 5)} />
+        <MusicList Musics={Musics.slice(0, 5)} />
       </section>
 
       <section>
-        <AllSongs />
+        <AllMusics />
       </section>
     </>
   )

@@ -6,16 +6,36 @@ import { Sidebar } from "@/components/sidebar"
 import { TopBar } from "@/components/top-bar"
 import { MusicPlayer } from "@/components/music-player"
 
+// export default function Page() {
+//     const [activeView, setActiveView] = useState<ViewType>('library')
+
+//     return (
+//         <div className="flex-1 flex overflow-hidden">
+//             <Sidebar setActiveView={setActiveView} activeView={activeView} />
+//             <div className="flex-1 flex flex-col h-full">
+//                 <TopBar />
+//                 <div className="flex-1 overflow-auto">
+//                     <MainContent activeView={activeView} />
+//                 </div>
+//             </div>
+//             <MusicPlayer />
+//         </div>
+//     )
+// }
+
 export default function Page() {
-    const [activeView, setActiveView] = useState<ViewType>('featured')
+    const [activeView, setActiveView] = useState<ViewType>('library')
 
     return (
-        <div className="flex-1 flex overflow-hidden">
-            <Sidebar setActiveView={setActiveView} activeView={activeView} />
-            {/* flex-1 保证 TopBar 和 MainContent 占据剩余空间 */}
-            <div className="flex-1 flex-col">
-                <TopBar />
-                <MainContent activeView={activeView} />
+        <div className="h-screen flex flex-col">
+            <div className="flex-1 flex overflow-hidden">
+                <Sidebar setActiveView={setActiveView} activeView={activeView} />
+                <div className="flex-1 flex flex-col">
+                    <TopBar />
+                    <div className="flex-1 overflow-auto">
+                        <MainContent activeView={activeView} />
+                    </div>
+                </div>
             </div>
             <MusicPlayer />
         </div>

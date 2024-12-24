@@ -1,12 +1,13 @@
-import { Playlist, Song } from '@/lib/types'
+import { Playlist, Music } from '@/lib/types'
 
-export const songs: Song[] = [
+export const Musics: Music[] = [
   {
     id: 1,
     title: "Butterfly",
     artist: "Grimes",
     cover: "/placeholder.svg?height=400&width=400",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Music-1.mp3",
+    duration: 205,
     tags: ["电子", "流行"],
     suitableFor: ["焦虑症患者", "失眠症患者", "抑郁症患者"],
     emotionalImpact: "这首歌曲有助于缓解压力，提升心情。它的旋律舒缓，节奏平稳，可以帮助听者放松身心，减少焦虑感。歌词中充满希望和积极的信息，能够给予听者精神上的支持和鼓励。",
@@ -18,7 +19,8 @@ export const songs: Song[] = [
     title: "Genesis",
     artist: "Grimes",
     cover: "/placeholder.svg?height=400&width=400",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Music-2.mp3",
+    duration: 205,
     tags: ["电子", "实验"]
   },
   {
@@ -26,7 +28,8 @@ export const songs: Song[] = [
     title: "Oblivion",
     artist: "Grimes",
     cover: "/placeholder.svg?height=400&width=400",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Music-3.mp3",
+    duration: 225,
     tags: ["电子", "流行"]
   },
   {
@@ -34,7 +37,8 @@ export const songs: Song[] = [
     title: "Bohemian Rhapsody",
     artist: "Queen",
     cover: "/placeholder.svg?height=400&width=400",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Music-4.mp3",
+    duration: 225,
     tags: ["摇滚", "经典"]
   },
   {
@@ -42,7 +46,8 @@ export const songs: Song[] = [
     title: "Stairway to Heaven",
     artist: "Led Zeppelin",
     cover: "/placeholder.svg?height=400&width=400",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Music-5.mp3",
+    duration: 225,
     tags: ["摇滚", "经典"]
   },
   {
@@ -50,7 +55,8 @@ export const songs: Song[] = [
     title: "Imagine",
     artist: "John Lennon",
     cover: "/placeholder.svg?height=400&width=400",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Music-6.mp3",
+    duration: 225,
     tags: ["摇滚", "民谣"]
   },
   {
@@ -58,7 +64,8 @@ export const songs: Song[] = [
     title: "Smells Like Teen Spirit",
     artist: "Nirvana",
     cover: "/placeholder.svg?height=400&width=400",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Music-7.mp3",
+    duration: 225,
     tags: ["摇滚", "垃圾"]
   },
   {
@@ -66,7 +73,8 @@ export const songs: Song[] = [
     title: "Billie Jean",
     artist: "Michael Jackson",
     cover: "/placeholder.svg?height=400&width=400",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Music-8.mp3",
+    duration: 225,
     tags: ["流行", "R&B"]
   },
   {
@@ -74,7 +82,8 @@ export const songs: Song[] = [
     title: "Like a Rolling Stone",
     artist: "Bob Dylan",
     cover: "/placeholder.svg?height=400&width=400",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Music-9.mp3",
+    duration: 225,
     tags: ["民谣", "摇滚"]
   },
   {
@@ -82,7 +91,8 @@ export const songs: Song[] = [
     title: "Respect",
     artist: "Aretha Franklin",
     cover: "/placeholder.svg?height=400&width=400",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3",
+    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Music-10.mp3",
+    duration: 225,
     tags: ["R&B", "灵魂"]
   }
 ]
@@ -93,28 +103,27 @@ export const playlists: Playlist[] = [
     title: "Daily Mix",
     description: "Personalized playlist for you",
     cover: "/placeholder.svg?height=400&width=400",
-    songs: songs.slice(0, 4)
+    Musics: Musics.slice(0, 4)
   },
   {
     id: 2,
     title: "Top Hits 2024",
     description: "Popular tracks this year",
     cover: "/placeholder.svg?height=400&width=400",
-    songs: songs.slice(4, 8)
+    Musics: Musics.slice(4, 8)
   },
   {
     id: 3,
     title: "Chill Vibes",
     description: "Relaxing music collection",
     cover: "/placeholder.svg?height=400&width=400",
-    songs: songs.slice(2, 6)
+    Musics: Musics.slice(2, 6)
   },
   {
     id: 4,
     title: "New Releases",
     description: "Fresh music just for you",
     cover: "/placeholder.svg?height=400&width=400",
-    songs: songs.slice(6, 10)
+    Musics: Musics.slice(6, 10)
   }
 ]
-

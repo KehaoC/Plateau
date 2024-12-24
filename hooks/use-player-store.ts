@@ -1,29 +1,30 @@
 import { create } from 'zustand'
-import { Song } from '@/lib/types'
+import { Music } from '@/lib/types'
 
 interface PlayerState {
-  currentSong: Song | null
+  currentMusic: Music | null
   isPlaying: boolean
   volume: number
   progress: number
   duration: number
   isShuffling: boolean
   isRepeating: boolean
-  queue: Song[]
-  setCurrentSong: (song: Song | null) => void
+  queue: Music[]
+  setCurrentMusic: (Music: Music | null) => void
   setIsPlaying: (isPlaying: boolean) => void
   setVolume: (volume: number) => void
   setProgress: (progress: number) => void
   setDuration: (duration: number) => void
   setIsShuffling: (isShuffling: boolean) => void
   setIsRepeating: (isRepeating: boolean) => void
-  setQueue: (queue: Song[]) => void
+  setQueue: (queue: Music[]) => void
   playNext: () => void
   playPrevious: () => void
 }
 
+// 全局的音乐播放器状态管理
 export const usePlayerStore = create<PlayerState>((set, get) => ({
-  currentSong: null,
+  currentMusic: null,
   isPlaying: false,
   volume: 1,
   progress: 0,
@@ -31,7 +32,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   isShuffling: false,
   isRepeating: false,
   queue: [],
-  setCurrentSong: (song) => set({ currentSong: song }),
+  setCurrentMusic: (Music) => set({ currentMusic: Music }),
   setIsPlaying: (isPlaying) => set({ isPlaying }),
   setVolume: (volume) => set({ volume }),
   setProgress: (progress) => set({ progress }),
@@ -40,10 +41,10 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   setIsRepeating: (isRepeating) => set({ isRepeating }),
   setQueue: (queue) => set({ queue }),
   playNext: () => {
-    const { queue, currentSong, isShuffling, setCurrentSong } = get()
-    if (!currentSong || queue.length === 0) return
+    const { queue, currentMusic, isShuffling, setCurrentMusic } = get()
+    if (!currentMusic || queue.length === 0) return
 
-    const currentIndex = queue.findIndex((song) => song.id === currentSong.id)
+    const currentIndex = queue.findIndex((Music) => Music.id === currentMusic.id)
     let nextIndex
 
     if (isShuffling) {
@@ -52,15 +53,15 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       nextIndex = (currentIndex + 1) % queue.length
     }
 
-    setCurrentSong(queue[nextIndex])
+    setCurrentMusic(queue[nextIndex])
   },
   playPrevious: () => {
-    const { queue, currentSong, setCurrentSong } = get()
-    if (!currentSong || queue.length === 0) return
+    const { queue, currentMusic, setCurrentMusic } = get()
+    if (!currentMusic || queue.length === 0) return
 
-    const currentIndex = queue.findIndex((song) => song.id === currentSong.id)
+    const currentIndex = queue.findIndex((Music) => Music.id === currentMusic.id)
     const previousIndex = (currentIndex - 1 + queue.length) % queue.length
-    setCurrentSong(queue[previousIndex])
+    setCurrentMusic(queue[previousIndex])
   }
 }))
 

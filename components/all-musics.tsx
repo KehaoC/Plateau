@@ -4,19 +4,19 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { SongList } from "@/components/song-list"
-import { songs } from "@/lib/data"
+import { MusicList } from "@/components/music-list"
+import { Musics } from "@/lib/data"
 
 const tags = ["流行", "摇滚", "古典", "爵士", "电子", "民谣", "R&B", "嘻哈"]
 
-export function AllSongs() {
+export function AllMusics() {
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [searchTerm, setSearchTerm] = useState('')
 
-  const filteredSongs = songs.filter(song => 
-    (selectedTags.length === 0 || selectedTags.some(tag => song.tags?.includes(tag))) &&
-    (song.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-     song.artist.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredMusics = Musics.filter(Music => 
+    (selectedTags.length === 0 || selectedTags.some(tag => Music.tags?.includes(tag))) &&
+    (Music.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+     Music.artist.toLowerCase().includes(searchTerm.toLowerCase()))
   )
 
   const toggleTag = (tag: string) => {
@@ -51,7 +51,7 @@ export function AllSongs() {
       </div>
       <ScrollArea className="flex-1">
         <div className="p-4">
-          <SongList songs={filteredSongs} />
+          <MusicList Musics={filteredMusics} />
         </div>
       </ScrollArea>
     </div>

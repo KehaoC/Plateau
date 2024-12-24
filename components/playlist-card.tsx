@@ -12,12 +12,12 @@ interface PlaylistCardProps {
 }
 
 export function PlaylistCard({ playlist }: PlaylistCardProps) {
-  const { setCurrentSong, setQueue, setIsPlaying } = usePlayerStore()
+  const { setCurrentMusic, setQueue, setIsPlaying } = usePlayerStore()
 
   const handlePlay = () => {
-    if (playlist.songs.length > 0) {
-      setCurrentSong(playlist.songs[0])
-      setQueue(playlist.songs)
+    if (playlist.Musics.length > 0) {
+      setCurrentMusic(playlist.Musics[0])
+      setQueue(playlist.Musics)
       setIsPlaying(true)
     }
   }
