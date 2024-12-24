@@ -4,8 +4,7 @@ import { FeaturedContent } from "@/components/feature-content"
 import { DepartmentPersonalization } from "@/components/department-personalization"
 import { PatientPersonalization } from "@/components/patient-personalization"
 import { LibraryContent } from "@/components/library-content"
-
-
+import MusicGeneration from "@/components/MusicGeneration"
 export function MainContent({ activeView }: { activeView: ViewType }) {
   return (
     <ScrollArea className="flex-1">
@@ -14,6 +13,7 @@ export function MainContent({ activeView }: { activeView: ViewType }) {
         {activeView === 'department' && <DepartmentPersonalization />}
         {activeView === 'patient' && <PatientPersonalization />}
         {activeView === 'library' && <LibraryContent />}
+        {activeView === 'music-generation' && <MusicGeneration />}
       </div>
     </ScrollArea>
   )
