@@ -7,7 +7,7 @@ import { TopBar } from "@/components/top-bar"
 import { MusicPlayer } from "@/components/music-player"
 
 export default function Page() {
-    const [activeView, setActiveView] = useState<ViewType>('library')
+    const [activeView, setActiveView] = useState<ViewType>('music-generation')
 
     return (
         <div className="h-screen flex flex-col">

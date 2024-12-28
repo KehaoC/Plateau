@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { polishPrompt, generateMusic } from "@/services/api";
 
 export function useMusicGeneration() {
@@ -7,8 +7,32 @@ export function useMusicGeneration() {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isPolishing, setIsPolishing] = useState(false);
-  const [elapsedTime, setElapsedTime] = useState(0);
-  let timerInterval: NodeJS.Timeout;
+  const [elapsedTime, setElapsedTime] = useState<number>(0);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Cleanup audio URL on unmount
+  useEffect(() => {
+    return () => {
+      if (audioUrl) {
+        URL.revokeObjectURL(audioUrl);
+      }
+    };
+  }, [audioUrl]);
+
+  useEffect(() => {
+    if (isGenerating) {
+      setElapsedTime(0);
+      timerRef.current = setInterval(() => {
+        setElapsedTime(prev => prev + 1);
+      }, 1000);
+    }
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [isGenerating]);
 
   const handlePolish = async () => {
     try {
@@ -25,19 +49,12 @@ export function useMusicGeneration() {
   const handleGenerate = async (textToUse: string) => {
     try {
       setIsGenerating(true);
-      setElapsedTime(0);
-      
-      timerInterval = setInterval(() => {
-        setElapsedTime(prev => prev + 1);
-      }, 1000);
-
-      const response = await generateMusic(textToUse);
-      const url = URL.createObjectURL(response);
+      const blob = await generateMusic(textToUse);
+      const url = URL.createObjectURL(blob);
       setAudioUrl(url);
     } catch (error) {
       console.error("Error generating music:", error);
     } finally {
-      clearInterval(timerInterval);
       setIsGenerating(false);
     }
   };

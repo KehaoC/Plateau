@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/table'
 import { MusicDetails } from '@/components/music-details'
 import { usePlayerStore } from '@/hooks/use-player-store'
+import { BatchAddMusic } from '@/components/batch-add-music'
 
 export interface MusicInLib {
     id: number
@@ -44,26 +45,30 @@ export function LibraryContent() {
     const [musicIdSelectedToPlay, setMusicIdSelectedToPlay] = useState<number | null>(null)
     const { setCurrentMusic, setIsPlaying } = usePlayerStore()
 
+    // 批量添加页面显示
+    const [isBatchAddMusicOpen, setIsBatchAddMusicOpen] = useState(false)
+
+    // 获取音乐列表函数
+    const fetchMusics = async () => {
+        try{
+            setIsLoading(true)
+            const { data, error } = await supabase
+                .from('music')
+                .select('id, title, artist, duration, tags')
+            
+            if (error) throw error
+            setMusics(data || [])
+            console.log("musics:", data)
+        } catch (error) {
+            setError('Failed to fetch music data')
+            console.error('Failed to fetch music data:', error)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
     // 获取音乐列表, 只加载一次
     useEffect(()=>{
-        async function fetchMusics(){
-            try{
-                setIsLoading(true)
-                const { data, error } = await supabase
-                    .from('music')
-                    .select('id, title, artist, duration, tags')
-                
-                if (error) throw error
-                setMusics(data || [])
-                console.log("musics:", data)
-            } catch (error) {
-                setError('Failed to fetch music data')
-                console.error('Failed to fetch music data:', error)
-            } finally {
-                setIsLoading(false)
-            }
-        }
-
         fetchMusics()
     }, [])
 
@@ -96,6 +101,17 @@ export function LibraryContent() {
         setMusicIdSelectedToPlay(id)
     }
 
+    // 批量添加音乐
+    const handleBatchAddMusic = () => {
+        setIsBatchAddMusicOpen(true)
+    }
+
+    const handleBatchAddSuccess = () => {
+        // 重新加载音乐列表
+        fetchMusics()
+    }
+
+    // 加载中的 skeleton 组件
     if (isLoading) {
         return (
             <div className="flex flex-col gap-4">
@@ -149,7 +165,7 @@ export function LibraryContent() {
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-bold">曲库</h1>
                 <div className="flex gap-2">
-                    <Button variant="outline">
+                    <Button variant="outline" onClick={handleBatchAddMusic}>
                         <Plus className="w-4 h-4 mr-2" />
                         批量添加
                     </Button>
@@ -201,6 +217,12 @@ export function LibraryContent() {
                     onClose={() => setSelectedDetailId(null)}
                 />
             )}
+            {/* 批量添加音乐对话框 */}
+            <BatchAddMusic
+                isOpen={isBatchAddMusicOpen}
+                onClose={() => setIsBatchAddMusicOpen(false)}
+                onSuccess={handleBatchAddSuccess}
+            />
         </div>
     )
 }

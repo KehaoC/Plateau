@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Music } from "@/lib/types";
+import { useEffect, useState } from "react";
 
 interface MusicVisualizerCardProps {
   audioUrl: string | null;
@@ -9,6 +11,34 @@ interface MusicVisualizerCardProps {
   polishedPrompt: string | null;
 }
 
+interface StarStyle {
+  width: number;
+  height: number;
+  top: string;
+  left: string;
+  delay: string;
+  duration: string;
+  opacity: number;
+}
+
+interface WaveStyle {
+  width: string;
+  delay: string;
+  duration: string;
+  scale: number;
+}
+
+interface ParticleStyle {
+  width: number;
+  height: number;
+  top: string;
+  left: string;
+  delay: string;
+  duration: string;
+  scale: number;
+  opacity: number;
+}
+
 export function MusicVisualizerCard({
   audioUrl,
   isGenerating,
@@ -16,35 +46,79 @@ export function MusicVisualizerCard({
   prompt,
   polishedPrompt,
 }: MusicVisualizerCardProps) {
+  const [isMakingMusic, setIsMakingMusic] = useState(false);
+  const [starStyles, setStarStyles] = useState<StarStyle[]>([]);
+  const [waveStyles, setWaveStyles] = useState<WaveStyle[]>([]);
+  const [particleStyles, setParticleStyles] = useState<ParticleStyle[]>([]);
+
+  useEffect(() => {
+    // Generate static styles on mount
+    const stars = Array.from({ length: 100 }, () => ({
+      width: Math.random() * 2 + 1,
+      height: Math.random() * 2 + 1,
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 5}s`,
+      duration: `${1 + Math.random() * 4}s`,
+      opacity: Math.random() * 0.7 + 0.3
+    }));
+
+    const waves = Array.from({ length: 8 }, () => ({
+      width: `${20 + Math.random() * 80}%`,
+      delay: `${Math.random() * 0.5}s`,
+      duration: `${0.5 + Math.random() * 2}s`,
+      scale: 1 + Math.random() * 0.5
+    }));
+
+    const particles = Array.from({ length: 20 }, () => ({
+      width: Math.random() * 3,
+      height: Math.random() * 3,
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 7}s`,
+      duration: `${4 + Math.random() * 6}s`,
+      scale: 1 + Math.random(),
+      opacity: Math.random() * 0.5 + 0.5
+    }));
+
+    setStarStyles(stars);
+    setWaveStyles(waves);
+    setParticleStyles(particles);
+  }, []);
+
+  function handleMakeMusic() {
+    console.log("make music");
+    setIsMakingMusic(true);
+  }
+
   return (
     <Card className="mt-8 overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
       <div className="flex items-stretch">
         {/* 左侧宇宙风格音乐可视化区域 */}
         <div className="w-1/3 bg-black p-8 relative overflow-hidden">
-          {/* 星空背景效果 - 增加更多星星和大小变化 */}
+          {/* 星空背景效果 */}
           <div className="absolute inset-0 opacity-50">
-            {[...Array(100)].map((_, i) => (
+            {starStyles.map((style, i) => (
               <div
                 key={i}
                 className="absolute bg-white rounded-full animate-twinkle"
                 style={{
-                  width: `${Math.random() * 2 + 1}px`,
-                  height: `${Math.random() * 2 + 1}px`,
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 5}s`,
-                  animationDuration: `${1 + Math.random() * 4}s`,
-                  opacity: Math.random() * 0.7 + 0.3
+                  width: `${style.width}px`,
+                  height: `${style.height}px`,
+                  top: style.top,
+                  left: style.left,
+                  animationDelay: style.delay,
+                  animationDuration: style.duration,
+                  opacity: style.opacity
                 }}
               />
             ))}
           </div>
-          
-          {/* 中央音乐可视化圆环 - 增加律动效果 */}
+
+          {/* 中央音乐可视化圆环 */}
           <div className="relative z-10">
             <div className="aspect-square w-full rounded-full bg-gradient-to-b from-white/10 to-transparent p-1 backdrop-blur-sm animate-pulse">
               <div className="w-full h-full rounded-full bg-black flex items-center justify-center relative">
-                {/* 多层动态圆环 - 增加更多层次 */}
                 <div className="absolute inset-0 rounded-full border border-white/20 animate-pulse" />
                 <div className="absolute inset-1 rounded-full border border-white/15 animate-ping [animation-duration:4s]" />
                 <div className="absolute inset-2 rounded-full border border-white/10 animate-pulse [animation-delay:1s]" />
@@ -54,37 +128,37 @@ export function MusicVisualizerCard({
               </div>
             </div>
 
-            {/* 底部音波效果 - 增加动态变化 */}
+            {/* 底部音波效果 */}
             <div className="mt-8 space-y-1">
-              {[...Array(8)].map((_, i) => (
+              {waveStyles.map((style, i) => (
                 <div
                   key={i}
                   className="h-0.5 bg-white/20 rounded-full animate-pulse"
                   style={{
-                    width: `${20 + Math.random() * 80}%`,
-                    animationDelay: `${i * 0.1}s`,
-                    animationDuration: `${0.5 + Math.random() * 2}s`,
-                    transform: `scaleY(${1 + Math.random() * 0.5})`
+                    width: style.width,
+                    animationDelay: style.delay,
+                    animationDuration: style.duration,
+                    transform: `scaleY(${style.scale})`
                   }}
                 />
               ))}
             </div>
           </div>
 
-          {/* 漂浮粒子效果 - 增加更多粒子和变化 */}
-          {[...Array(20)].map((_, i) => (
+          {/* 漂浮粒子效果 */}
+          {particleStyles.map((style, i) => (
             <div
               key={i}
               className="absolute bg-white/20 rounded-full animate-float"
               style={{
-                width: `${Math.random() * 3}px`,
-                height: `${Math.random() * 3}px`,
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 7}s`,
-                animationDuration: `${4 + Math.random() * 6}s`,
-                transform: `scale(${1 + Math.random()})`,
-                opacity: Math.random() * 0.5 + 0.5
+                width: `${style.width}px`,
+                height: `${style.height}px`,
+                top: style.top,
+                left: style.left,
+                animationDelay: style.delay,
+                animationDuration: style.duration,
+                transform: `scale(${style.scale})`,
+                opacity: style.opacity
               }}
             />
           ))}
@@ -112,53 +186,6 @@ export function MusicVisualizerCard({
                 <div className="h-12 flex items-center justify-center text-sm text-muted-foreground">
                   Audio player will appear here
                 </div>
-              )}
-            </div>
-
-            <div className="flex items-center justify-between pt-2">
-              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <span>{isGenerating ? `Generating: ${elapsedTime}s` : 'Ready to generate'}</span>
-              </div>
-              {audioUrl && (
-                <Button 
-                  variant="secondary"
-                  size="sm"
-                  className="hover:scale-105 transition-transform duration-200"
-                  onClick={() => {
-                    const a = document.createElement('a');
-                    a.href = audioUrl;
-                    a.download = 'generated-music.wav';
-                    a.click();
-                  }}
-                >
-                  <svg
-                    className="w-4 h-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                    />
-                  </svg>
-                  Download Track
-                </Button>
               )}
             </div>
           </div>
