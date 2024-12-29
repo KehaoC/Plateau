@@ -3,10 +3,6 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { MusicList } from "@/components/music-list"
-import { Musics } from "@/lib/data"
-import { Music } from "@/lib/types"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -19,7 +15,6 @@ export function PatientPersonalization() {
     condition: '',
     preferences: ''
   })
-  const [customPlaylist, setCustomPlaylist] = useState<Music[]>([])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -28,13 +23,6 @@ export function PatientPersonalization() {
 
   const handleSelectChange = (value: string) => {
     setPatientInfo(prev => ({ ...prev, gender: value }))
-  }
-
-  const generatePlaylist = () => {
-    // This is a mock function to simulate generating a playlist
-    // In a real application, this would call an API or use an AI model
-    const shuffled = [...Musics].sort(() => 0.5 - Math.random())
-    setCustomPlaylist(shuffled.slice(0, 5))
   }
 
   const isFormValid = Object.values(patientInfo).every(value => value.trim() !== '')
@@ -99,20 +87,10 @@ export function PatientPersonalization() {
             />
           </div>
         </div>
-        <Button onClick={generatePlaylist} disabled={!isFormValid}>
-          生成个性化歌单
+        <Button disabled={!isFormValid}>
+          保存患者信息
         </Button>
       </div>
-      <ScrollArea className="flex-1">
-        <div className="p-4">
-          {customPlaylist.length > 0 && (
-            <>
-              <h2 className="text-xl font-semibold mb-4">为 {patientInfo.name} 定制的歌单</h2>
-              <MusicList Musics={customPlaylist} />
-            </>
-          )}
-        </div>
-      </ScrollArea>
     </div>
   )
 }
