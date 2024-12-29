@@ -33,9 +33,11 @@ interface BatchAddMusicProps {
 }
 
 export function BatchAddMusic({ isOpen, onClose, onSuccess }: BatchAddMusicProps) {
+    // 音乐文件信息
     const [musicFiles, setMusicFiles] = useState<MusicFileInfo[]>([])
     const [isLoading, setIsLoading] = useState(false)
 
+    // 处理文件上传
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files
         if (files) {
@@ -60,6 +62,7 @@ export function BatchAddMusic({ isOpen, onClose, onSuccess }: BatchAddMusicProps
         }
     }
 
+    // 更新音乐文件信息
     const handleUpdateMusicInfo = (index: number, field: keyof MusicFileInfo, value: string) => {
         setMusicFiles(prev => prev.map((item, i) => 
             i === index 
@@ -68,10 +71,12 @@ export function BatchAddMusic({ isOpen, onClose, onSuccess }: BatchAddMusicProps
         ))
     }
 
+    // 移除音乐文件
     const handleRemoveFile = (index: number) => {
         setMusicFiles(prev => prev.filter((_, i) => i !== index))
     }
 
+    // 处理封面文件上传
     const handleCoverChange = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
         if (!file) return
@@ -82,7 +87,7 @@ export function BatchAddMusic({ isOpen, onClose, onSuccess }: BatchAddMusicProps
             return
         }
 
-        // 创建预览 URL
+        // 创建预览 URL, 实时更新封面预览
         const previewUrl = URL.createObjectURL(file)
         
         setMusicFiles(prev => prev.map((item, i) => 
@@ -92,15 +97,17 @@ export function BatchAddMusic({ isOpen, onClose, onSuccess }: BatchAddMusicProps
         ))
     }
 
+    // 提交上传
     const handleSubmit = async () => {
         if (musicFiles.length === 0) return
         
         try {
             setIsLoading(true)
             
+            // 遍历每一个音乐文件
             for (const musicInfo of musicFiles) {
-                const filePath = `audio/${musicInfo.file.name}`
-                let coverPath = null
+                const audioPath = `audio/${musicInfo.file.name}`
+                let coverPath = `cover/${musicInfo.file.name}`
 
                 // 1. 如果有封面，使用与音乐文件相同的名称（但在 cover 目录下）
                 if (musicInfo.cover) {
@@ -115,13 +122,12 @@ export function BatchAddMusic({ isOpen, onClose, onSuccess }: BatchAddMusicProps
                         .upload(coverFileName, musicInfo.cover)
 
                     if (coverError) throw coverError
-                    coverPath = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/musicBucket/${coverFileName}`
                 }
 
                 // 2. 上传音频文件
                 const { error: uploadError } = await supabase.storage
                     .from('musicBucket')
-                    .upload(filePath, musicInfo.file)
+                    .upload(audioPath, musicInfo.file)
 
                 if (uploadError) throw uploadError
 
@@ -130,8 +136,8 @@ export function BatchAddMusic({ isOpen, onClose, onSuccess }: BatchAddMusicProps
                     .from('music')
                     .insert({
                         title: musicInfo.title,
-                        audio: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/musicBucket/${filePath}`,
-                        cover: coverPath,  // 添加封面 URL
+                        audio_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/musicBucket/${audioPath}`,
+                        cover_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/musicBucket/${coverPath}`,
                         duration: 0,
                         artist: musicInfo.artist,
                         tags: musicInfo.tags
@@ -148,6 +154,8 @@ export function BatchAddMusic({ isOpen, onClose, onSuccess }: BatchAddMusicProps
             console.error('Failed to upload music:', error)
             alert("文件上传过程中发生错误")
         } finally {
+
+            // 关闭对话框
             setIsLoading(false)
         }
     }

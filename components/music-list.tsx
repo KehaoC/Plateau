@@ -6,7 +6,7 @@ import { Play } from 'lucide-react'
 import Image from "next/image"
 import { usePlayerStore } from "@/hooks/use-player-store"
 import { Music } from "@/lib/types"
-import { cn } from "@/lib/utils"
+import { cn, getValidImageUrl } from "@/lib/utils"
 import { MusicDetails } from "@/components/music-details"
 interface MusicListProps {
   Musics: Music[]
@@ -46,7 +46,7 @@ export function MusicList({ Musics }: MusicListProps) {
           </span>
           <div className="relative h-12 w-12 rounded overflow-hidden">
             <Image
-              src={Music.cover}
+              src={getValidImageUrl(Music.cover_url)}
               alt={Music.title}
               className="object-cover"
               fill

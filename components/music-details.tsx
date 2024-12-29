@@ -3,7 +3,7 @@ import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
-import { Clock, Heart, User, Tag, Music } from 'lucide-react'
+import { Clock, Heart, User, Tag, Music, Music2, Stethoscope } from 'lucide-react'
 import { supabase } from "@/lib/supabase"
 import { useEffect, useState } from "react"
 import { Music as MusicType } from "@/lib/types"
@@ -46,15 +46,15 @@ export function MusicDetails({ MusicId, isOpen, onClose }: MusicDetailsProps) {
           <DialogDescription>{music?.artist}</DialogDescription>
         </DialogHeader>
         <div className="flex-grow overflow-hidden">
-          <ScrollArea className="h-full pr-4">
-            <div className="space-y-6">
+          <ScrollArea className="h-[calc(90vh-120px)]">
+            <div className="space-y-6 pr-4">
               <div className="flex items-center gap-6">
                 <div className="relative h-32 w-32 rounded-lg overflow-hidden shadow-lg">
                   {imageLoading && (
                     <div className="absolute inset-0 bg-muted animate-pulse" />
                   )}
                   <Image
-                    src={music?.cover || "/default.png"}
+                    src={music?.cover_url || "/default.png"}
                     alt={music?.title || 'Default music cover'}
                     className={`object-cover transition-opacity duration-300 ${
                       imageLoading ? 'opacity-0' : 'opacity-100'
@@ -89,38 +89,53 @@ export function MusicDetails({ MusicId, isOpen, onClose }: MusicDetailsProps) {
                   适合的患者
                 </h4>
                 <div className="flex flex-wrap gap-2">
-                  {music?.suitableFor?.map((patient, index) => (
-                    <Badge key={index} variant="secondary">{patient}</Badge>
-                  ))}
+                  {music?.suitable_for && (
+                    <Badge variant="secondary">
+                      {typeof music.suitable_for === 'string' 
+                        ? (music.suitable_for as string).replace(/[{}]/g, '')
+                        : music.suitable_for}
+                    </Badge>
+                  )}
                 </div>
               </div>
 
               <Separator />
 
-              <div>
-                <h4 className="font-semibold text-lg mb-2">情绪影响</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {music?.emotionalImpact}
-                </p>
-              </div>
+              {music?.emotional_impact && (
+                <div>
+                  <h4 className="font-semibold text-lg mb-2 flex items-center gap-2">
+                    <Heart className="h-5 w-5 text-primary" />
+                    情感影响
+                  </h4>
+                  <div className="whitespace-pre-line pl-4">
+                    {music.emotional_impact.replace(/\t/g, '')}
+                  </div>
+                </div>
+              )}
 
-              <Separator />
+              {music?.musical_analysis && (
+                <div>
+                  <h4 className="font-semibold text-lg mb-2 flex items-center gap-2">
+                    <Music2 className="h-5 w-5 text-primary" />
+                    音乐分析
+                  </h4>
+                  <div className="whitespace-pre-line pl-4">
+                    {music.musical_analysis.replace(/\t/g, '')}
+                  </div>
+                </div>
+              )}
 
-              <div>
-                <h4 className="font-semibold text-lg mb-2">曲式分析</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {music?.musicalAnalysis}
-                </p>
-              </div>
-
-              <Separator />
-
-              <div>
-                <h4 className="font-semibold text-lg mb-2">治疗建议</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {music?.therapeuticSuggestions}
-                </p>
-              </div>
+              {music?.therapeutic_suggestions && (
+                <div>
+                  <h4 className="font-semibold text-lg mb-2 flex items-center gap-2">
+                    <Stethoscope className="h-5 w-5 text-primary" />
+                    治疗建议
+                  </h4>
+                  <div className="whitespace-pre-line pl-4">
+                    {music.therapeutic_suggestions.replace(/\t/g, '')}
+                  </div>
+                </div>
+              )}
             </div>
           </ScrollArea>
         </div>

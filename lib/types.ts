@@ -2,24 +2,24 @@ export interface Music {
     id: number
     title: string
     artist: string
-    cover: string
-    audio: string
+    cover_url: string
+    audio_url: string
     duration: number
     tags?: string[]
-    suitableFor?: string[]
-    emotionalImpact?: string
-    musicalAnalysis?: string
-    therapeuticSuggestions?: string
+    suitable_for?: string[]
+    emotional_impact?: string
+    musical_analysis?: string
+    therapeutic_suggestions?: string
   }
 
 
   
-export interface Playlist {
+export interface MusicList {
     id: number
-    title: string
+    name: string
     description: string
-    cover: string
-    Musics: Music[]
+    cover_url: string
+    // Musics: Music[]
   }
 
 export type ViewType = 

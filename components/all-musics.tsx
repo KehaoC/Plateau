@@ -1,17 +1,29 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { MusicList } from "@/components/music-list"
-import { Musics } from "@/lib/data"
+import { Music } from '@/lib/types'
+import { supabase } from '@/lib/supabase'
+
 
 const tags = ["流行", "摇滚", "古典", "爵士", "电子", "民谣", "R&B", "嘻哈"]
 
 export function AllMusics() {
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [searchTerm, setSearchTerm] = useState('')
+
+  const [Musics, setMusics] = useState<Music[]>([])
+
+  useEffect(() => {
+    const fetchMusics = async () => {
+      const { data, error } = await supabase.from('music').select('*')
+      setMusics(data || [])
+    }
+    fetchMusics()
+  }, [])
 
   const filteredMusics = Musics.filter(Music => 
     (selectedTags.length === 0 || selectedTags.some(tag => Music.tags?.includes(tag))) &&

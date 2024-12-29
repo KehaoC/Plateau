@@ -6,7 +6,7 @@ import { Slider } from "@/components/ui/slider"
 import { Heart, ListMusic, Mic2, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward, Volume2 } from 'lucide-react'
 import Image from "next/image"
 import { usePlayerStore } from '@/hooks/use-player-store'
-import { formatTime } from '@/lib/utils'
+import { formatTime, getValidImageUrl } from '@/lib/utils'
 import { MusicDetails } from "@/components/music-details"
 
 export function MusicPlayer() {
@@ -88,7 +88,7 @@ export function MusicPlayer() {
     <>
       <audio
         ref={audioRef}
-        src={currentMusic.audio}
+        src={currentMusic.audio_url}
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleEnded}
       />
@@ -99,7 +99,7 @@ export function MusicPlayer() {
             onClick={() => setIsDetailsOpen(true)}
           >
             <Image
-              src={currentMusic.cover}
+              src={getValidImageUrl(currentMusic.cover_url)}
               alt={`${currentMusic.title} cover`}
               className="object-cover"
               fill
