@@ -106,44 +106,52 @@ export function BatchAddMusic({ isOpen, onClose, onSuccess }: BatchAddMusicProps
             
             // 遍历每一个音乐文件
             for (const musicInfo of musicFiles) {
-                const audioPath = `audio/${musicInfo.file.name}`
-                let coverPath = `cover/${musicInfo.file.name}`
+                const audioPath = `${musicInfo.file.name}`
+                let coverFileName = ''
 
                 // 1. 如果有封面，使用与音乐文件相同的名称（但在 cover 目录下）
                 if (musicInfo.cover) {
                     // 获取音乐文件名（不含扩展名）和封面文件扩展名
                     const musicName = musicInfo.file.name.replace(/\.[^/.]+$/, "")
                     const coverExt = musicInfo.cover.name.split('.').pop()
-                    const coverFileName = `cover/${musicName}.${coverExt}`
+                    coverFileName = `${musicName}.${coverExt}`
+
+                    console.log("coverFileName", coverFileName)
+
 
                     // 上传封面到 storage 中
                     const { error: coverError } = await supabase.storage
                         .from('musicBucket')
-                        .upload(coverFileName, musicInfo.cover)
+                        .upload(`cover/${coverFileName}`, musicInfo.cover)
 
                     if (coverError) throw coverError
+                    console.log("上传封面成功")
                 }
 
                 // 2. 上传音频文件
+                console.log("audioPath", audioPath)
                 const { error: uploadError } = await supabase.storage
                     .from('musicBucket')
-                    .upload(audioPath, musicInfo.file)
+                    .upload(`audio/${audioPath}`, musicInfo.file)
+                
 
                 if (uploadError) throw uploadError
+                console.log("上传音频文件成功")
 
                 // 3. 创建数据库记录
                 const { error: dbError } = await supabase
                     .from('music')
                     .insert({
                         title: musicInfo.title,
-                        audio_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/musicBucket/${audioPath}`,
-                        cover_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/musicBucket/${coverPath}`,
+                        audio_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/musicBucket/audio/${audioPath}`,
+                        cover_url: coverFileName ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/musicBucket/cover/${coverFileName}` : null,
                         duration: 0,
                         artist: musicInfo.artist,
                         tags: musicInfo.tags
                     })
 
                 if (dbError) throw dbError
+                console.log("创建数据库记录成功")
             }
 
             alert(`成功上传 ${musicFiles.length} 个文件`)
