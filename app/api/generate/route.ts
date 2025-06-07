@@ -14,22 +14,21 @@ export async function POST(request: Request) {
         console.log("prompt:", prompt);
         
         const response = await fetch(
-            "https://api-inference.huggingface.co/models/facebook/musicgen-stereo-small",
+            "http://127.0.0.1:8000/musicgen",
             {
-                headers: {
-                    Authorization: `Bearer ${process.env.HUGGINGFACE_TOKEN}`,
-                    "Content-Type": "application/json",
-                },
                 method: "POST",
-                body: JSON.stringify({ inputs: prompt }),
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ text: prompt }),
             }
         );
-
         if (!response.ok) {
             throw new Error(`API responded with status: ${response.status}`);
         }
 
         const result = await response.blob();
+
         return new NextResponse(result, {
             headers: {
                 'Content-Type': 'audio/wav',
