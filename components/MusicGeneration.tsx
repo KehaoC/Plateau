@@ -36,6 +36,7 @@ export default function MusicGeneration() {
 
   // 生成音乐
   const handleGenerate = async (textToUse: string) => {
+    setAudioUrl(null);
     try {
       setIsGenerating(true);
       setElapsedTime(0);
@@ -131,7 +132,7 @@ export default function MusicGeneration() {
               </div>
             )}
 
-            {audioUrl || (
+            {(
               <MusicVisualizerCard
                 audioUrl={audioUrl}
                 isGenerating={isGenerating}
